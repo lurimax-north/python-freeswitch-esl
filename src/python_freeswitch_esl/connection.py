@@ -32,7 +32,7 @@ class ESLClient:
         self.is_connected: bool = False
         self.is_authed: bool = False
 
-        self.event_callbacks = defaultdict(list)
+        self.event_callbacks: defaultdict[str, list[Callable]] = defaultdict(list) # type: ignore
         self._update_subscribed_events(event_callbacks)
 
     def _update_subscribed_events(self, event_callbacks: dict):
@@ -44,6 +44,7 @@ class ESLClient:
             if isinstance(funcs, list):
                 self.event_callbacks[event] = funcs
             else:
+                print(self.event_callbacks)
                 self.event_callbacks[event].append(funcs)
 
     async def initialize(self):
@@ -83,7 +84,7 @@ class ESLClient:
             log.debug("Authenticated to %s:%s", self.host, self.port)
 
     def add_event_callback(self, event: str, callback: Callable):
-        self.event_callbacks[event] = callback
+        self.event_callbacks[event].append(callback)
 
     async def subscribe(self):
         if self.subscribed_events:

@@ -38,3 +38,11 @@ class TestClient():
         await client.run()
         mock_initialize.assert_called_once()
         mock_loop.assert_called_once()
+
+    def test_add_event_callback_appends_callback(self):
+        mock_callable = Mock
+        client = ESLClient("127.0.0.1", 8021)
+        assert len(client.event_callbacks["API"]) == 0
+        client.add_event_callback("API", mock_callable)
+        assert len(client.event_callbacks["API"]) == 1
+        assert isinstance(client.event_callbacks["API"], list)
