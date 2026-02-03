@@ -102,7 +102,7 @@ class ESLClient:
         async for _ in self.loop():
             continue
 
-    async def loop(self) -> AsyncGenerator[events.Event]:
+    async def loop(self):
         while True:
             data = await self.reader.readuntil(b"\n\n")
             data = data.decode()
