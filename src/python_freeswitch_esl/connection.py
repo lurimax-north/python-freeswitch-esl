@@ -35,6 +35,7 @@ class ESLClient:
         self.event_callbacks: defaultdict[str, list[Callable]] = defaultdict(list) # type: ignore
         self._update_subscribed_events(event_callbacks)
 
+
     def _update_subscribed_events(self, event_callbacks: dict):
         """
         Since events can be passes as both a single event or a list of event,
@@ -44,7 +45,6 @@ class ESLClient:
             if isinstance(funcs, list):
                 self.event_callbacks[event] = funcs
             else:
-                print(self.event_callbacks)
                 self.event_callbacks[event].append(funcs)
 
     async def initialize(self):
@@ -140,6 +140,8 @@ class ESLClient:
     async def send_command(self, message: str):
         self.writer.write(f"{message}\n\n".encode())
         await self.writer.drain()
+        data = await self.reader.readuntil(b"\n\n")
+        return data.decode()
 
     async def api(self, command: str):
-        await self.send_command(f"api {command}")
+        return await self.send_command(f"api {command}")

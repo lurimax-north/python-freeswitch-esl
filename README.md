@@ -27,6 +27,8 @@ def my_event_handler(event):
 
 conn = ESLCLient("127.0.0.1", 8021)
 conn.add_event_callback(EVENT.NOTIFY, my_event_handler)
+....
+await conn.initialize() # Always initilize the connection before using
 async for _ in conn.loop():
     continue
 ```
@@ -39,6 +41,7 @@ def my_event_handler(event):
     print(f"Received event: {event}")
 
 conn = ESLCLient("127.0.0.1", 8021)
+await conn.initialize() # Always initilize the connection before using
 async for event in conn.loop():
     if event.event == Event.CHANNEL_BRIDGE:
         my_event_handler(event)
@@ -51,7 +54,8 @@ You can send any command using `send_message()`
 from python_freeswitch_esl import ESLClient
 
 conn = ESLClient("127.0.0.1", 8021)
-conn.send_message("log 9")
+await conn.initialize() # Always initilize the connection before using
+await conn.send_message("log 9")
 ```
 
 For simple commands you can use the `api()` shortcut
@@ -60,5 +64,6 @@ For simple commands you can use the `api()` shortcut
 from python_freeswitch_esl import ESLClient
 
 conn = ESLClient("127.0.0.1", 8021)
+await conn.initialize() # Always initilize the connection before using
 con.api("status")
 ```
