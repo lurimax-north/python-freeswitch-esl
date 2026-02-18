@@ -4,7 +4,7 @@ or a list of callbacks
 
 #### During initilisation of the connection
 ```
-from python_freeswitch_esl connection import ESLClient
+from python_freeswitch_esl import ESLClient
 def my_event_handler(event)
     print(f"Event {event} happened!")
 
@@ -20,6 +20,8 @@ conn = ESLClient("127.0.0.1", 8021, event_callbacks={Event.MODULE_LOAD: [my_even
 
 #### Using the `add_event_callback` method
 ```
+from python_freeswitch_esl import ESLClient
+
 def my_event_handler(event):
     print(f"Received event: {event}")
 
@@ -31,6 +33,8 @@ async for _ in conn.loop():
 
 #### Manually iterating through the events()
 ```
+from python_freeswitch_esl import ESLClient
+
 def my_event_handler(event):
     print(f"Received event: {event}")
 
@@ -44,6 +48,8 @@ async for event in conn.loop():
 
 You can send any command using `send_message()`
 ```
+from python_freeswitch_esl import ESLClient
+
 conn = ESLClient("127.0.0.1", 8021)
 conn.send_message("log 9")
 ```
@@ -51,6 +57,8 @@ conn.send_message("log 9")
 For simple commands you can use the `api()` shortcut
 
 ```
+from python_freeswitch_esl import ESLClient
+
 conn = ESLClient("127.0.0.1", 8021)
 con.api("status")
 ```
